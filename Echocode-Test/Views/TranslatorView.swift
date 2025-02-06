@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct TranslatorView: View {
+    
+    @State private var isDogSelected = true
+    
     var body: some View {
         ZStack {
             BackgroundGradient()
@@ -47,7 +50,7 @@ struct TranslatorView: View {
                                 .fontWeight(.bold)
                                 .padding()
                         }
-                        .frame(width: 176, height: 176)
+                        .frame(width: 175, height: 175)
                     }
                     
                     ZStack {
@@ -57,31 +60,23 @@ struct TranslatorView: View {
                             .shadow(radius: 15)
                         
                         VStack(spacing: 10) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 15)
-                                    .frame(width: 70, height: 70)
-                                    .foregroundStyle(Color.customBlue)
-                                
-                                Image("cat")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
+                            Button {
+                                isDogSelected = false
+                            } label: {
+                                PetSelectionButton(color: .customBlue, imageName: "cat", overlayOpacity: isDogSelected ? 0.5 : 0)
                             }
                             
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 15)
-                                    .frame(width: 70, height: 70)
-                                    .foregroundStyle(Color.customYellow)
-                                
-                                Image("dog")
-                                    .resizable()
-                                    .frame(width: 40, height: 40)
+                            Button {
+                                isDogSelected = true
+                            } label: {
+                                PetSelectionButton(color: .customYellow, imageName: "dog", overlayOpacity: isDogSelected ? 0 : 0.5)
                             }
                         }
                     }
                 }
                 .padding(.vertical, 50)
                 
-                Image("dog")
+                Image(isDogSelected ? "dog" : "cat")
                     .resizable()
                     .frame(width: 185, height: 185)
                 
