@@ -9,8 +9,7 @@ import SwiftUI
 
 struct TranslatorView: View {
     
-    @State private var isDogSelected = true
-    @State private var isHumanToPet = true
+    @StateObject var viewModel = TranslatorViewModel()
     
     var body: some View {
         ZStack {
@@ -22,7 +21,8 @@ struct TranslatorView: View {
                     .fontWeight(.bold)
                     .padding()
                 
-                TranslationSwitch(isHumanToPet: $isHumanToPet)
+                TranslationSwitch(isHumanToPet: $viewModel.isHumanToPet)
+                    .padding(.bottom, 40)
                 
                 HStack(spacing: 35) {
                     ZStack {
@@ -38,7 +38,7 @@ struct TranslatorView: View {
                                 .resizable()
                                 .frame(width: 50, height: 70)
                             
-                            Text(isHumanToPet ? "Start Speak" : "Start Record")
+                            Text(viewModel.isHumanToPet ? "Start Speak" : "Start Record")
                                 .fontWeight(.bold)
                                 .padding()
                         }
@@ -53,22 +53,22 @@ struct TranslatorView: View {
                         
                         VStack(spacing: 10) {
                             Button {
-                                isDogSelected = false
+                                viewModel.isDogSelected = false
                             } label: {
-                                PetSelectionButton(color: .customBlue, imageName: "cat", overlayOpacity: isDogSelected ? 0.5 : 0)
+                                PetSelectionButton(color: .customBlue, imageName: "cat", overlayOpacity: viewModel.isDogSelected ? 0.5 : 0)
                             }
                             
                             Button {
-                                isDogSelected = true
+                                viewModel.isDogSelected = true
                             } label: {
-                                PetSelectionButton(color: .customYellow, imageName: "dog", overlayOpacity: isDogSelected ? 0 : 0.5)
+                                PetSelectionButton(color: .customYellow, imageName: "dog", overlayOpacity: viewModel.isDogSelected ? 0 : 0.5)
                             }
                         }
                     }
                 }
                 .padding(.bottom, 50)
                 
-                Image(isDogSelected ? "dog" : "cat")
+                Image(viewModel.isDogSelected ? "dog" : "cat")
                     .resizable()
                     .frame(width: 185, height: 185)
                 

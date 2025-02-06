@@ -12,12 +12,10 @@ struct TranslationSwitch: View {
     @Binding var isHumanToPet: Bool
     
     var body: some View {
-        HStack {
-            Spacer()
-            
+        HStack() {
             Text(isHumanToPet ? "HUMAN" : "PET")
                 .fontWeight(.bold)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
             
             Button {
                 withAnimation(.easeInOut(duration: 0.3)) {
@@ -32,12 +30,9 @@ struct TranslationSwitch: View {
             
             Text(isHumanToPet ? "PET" : "HUMAN")
                 .fontWeight(.bold)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            
-            Spacer()
+                .frame(maxWidth: .infinity, alignment: .center)
         }
-        .frame(width: 250, height: 60) 
-        .padding(.bottom, 40)
+        .frame(width: 310, height: 60)
     }
 }
 
