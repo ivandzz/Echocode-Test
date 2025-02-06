@@ -10,6 +10,7 @@ import SwiftUI
 struct TranslatorView: View {
     
     @State private var isDogSelected = true
+    @State private var isHumanToPet = true
     
     var body: some View {
         ZStack {
@@ -21,16 +22,7 @@ struct TranslatorView: View {
                     .fontWeight(.bold)
                     .padding()
                 
-                HStack(spacing: 50) {
-                    Text("HUMAN")
-                        .fontWeight(.bold)
-                    
-                    Image(systemName: "arrow.left.arrow.right")
-                    
-                    Text("PET")
-                        .fontWeight(.bold)
-                }
-                .padding(.vertical, 15)
+                TranslationSwitch(isHumanToPet: $isHumanToPet)
                 
                 HStack(spacing: 35) {
                     ZStack {
@@ -46,7 +38,7 @@ struct TranslatorView: View {
                                 .resizable()
                                 .frame(width: 50, height: 70)
                             
-                            Text("Start Speak")
+                            Text(isHumanToPet ? "Start Speak" : "Start Record")
                                 .fontWeight(.bold)
                                 .padding()
                         }
