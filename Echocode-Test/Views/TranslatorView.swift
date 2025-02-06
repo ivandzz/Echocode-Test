@@ -10,8 +10,7 @@ import SwiftUI
 struct TranslatorView: View {
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.white, .customYellow]), startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
+            BackgroundGradient()
             
             VStack(spacing: 15) {
                 Text("Translator")
