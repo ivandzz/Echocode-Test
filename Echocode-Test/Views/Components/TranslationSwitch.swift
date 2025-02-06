@@ -13,6 +13,8 @@ struct TranslationSwitch: View {
     
     var body: some View {
         HStack {
+            Spacer()
+            
             Text(isHumanToPet ? "HUMAN" : "PET")
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -31,9 +33,11 @@ struct TranslationSwitch: View {
             Text(isHumanToPet ? "PET" : "HUMAN")
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .trailing)
+            
+            Spacer()
         }
-        .frame(width: 310, height: 60) 
-        .padding(.vertical, 15)
+        .frame(width: 250, height: 60) 
+        .padding(.bottom, 40)
     }
 }
 

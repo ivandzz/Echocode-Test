@@ -16,7 +16,7 @@ struct TranslatorView: View {
         ZStack {
             BackgroundGradient()
             
-            VStack(spacing: 15) {
+            VStack(spacing: 20) {
                 Text("Translator")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -66,7 +66,7 @@ struct TranslatorView: View {
                         }
                     }
                 }
-                .padding(.vertical, 50)
+                .padding(.bottom, 50)
                 
                 Image(isDogSelected ? "dog" : "cat")
                     .resizable()
