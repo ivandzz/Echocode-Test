@@ -31,18 +31,27 @@ struct TranslatorView: View {
                             .foregroundStyle(.white)
                             .shadow(radius: 15)
                         
-                        VStack(spacing: 10) {
-                            Spacer()
-                            
-                            Image(systemName: "mic")
-                                .resizable()
-                                .frame(width: 50, height: 70)
-                            
-                            Text(viewModel.isHumanToPet ? "Start Speak" : "Start Record")
-                                .fontWeight(.bold)
-                                .padding()
+                        Button {
+                            if viewModel.isHumanToPet {
+                                viewModel.startSpeaking()
+                            } else {
+                                //                                viewModel.startRecording()
+                            }
+                        } label: {
+                            VStack(spacing: 10) {
+                                Spacer()
+                                
+                                Image(systemName: "mic")
+                                    .resizable()
+                                    .frame(width: 50, height: 70)
+                                
+                                Text(viewModel.isHumanToPet ? "Start Speak" : "Start Record")
+                                    .fontWeight(.bold)
+                                    .padding()
+                            }
+                            .foregroundStyle(.black)
+                            .frame(width: 175, height: 175)
                         }
-                        .frame(width: 175, height: 175)
                     }
                     
                     ZStack {
@@ -53,22 +62,22 @@ struct TranslatorView: View {
                         
                         VStack(spacing: 10) {
                             Button {
-                                viewModel.isDogSelected = false
+                                viewModel.selectedPet = .cat
                             } label: {
-                                PetSelectionButton(color: .customBlue, imageName: "cat", overlayOpacity: viewModel.isDogSelected ? 0.5 : 0)
+                                PetSelectionButton(color: .customBlue, imageName: "cat", overlayOpacity: viewModel.getOverlayOpacity(for: .cat))
                             }
                             
                             Button {
-                                viewModel.isDogSelected = true
+                                viewModel.selectedPet = .dog
                             } label: {
-                                PetSelectionButton(color: .customYellow, imageName: "dog", overlayOpacity: viewModel.isDogSelected ? 0 : 0.5)
+                                PetSelectionButton(color: .customYellow, imageName: "dog", overlayOpacity: viewModel.getOverlayOpacity(for: .dog))
                             }
                         }
                     }
                 }
                 .padding(.bottom, 50)
                 
-                Image(viewModel.isDogSelected ? "dog" : "cat")
+                Image(viewModel.selectedPet.imageName)
                     .resizable()
                     .frame(width: 185, height: 185)
                 
