@@ -10,11 +10,12 @@ import SwiftUI
 struct UserTabBar: View {
     
     @State private var selectedTab = 0
+    @StateObject private var translatorViewModel = TranslatorViewModel()
     
     var body: some View {
         ZStack {
             TabView(selection: $selectedTab) {
-                TranslatorView()
+                TranslatorView(viewModel: translatorViewModel)
                     .tabItem {
                         Label("Translator", systemImage: "bubble.left.and.bubble.right")
                     }
@@ -80,6 +81,9 @@ struct UserTabBar: View {
                     .frame(width: 215, height: 80)
                 }
                 .padding(.bottom, 20)
+                .opacity(translatorViewModel.isShowingResult ? 0 : 1)
+                .offset(y: translatorViewModel.isShowingResult ? 100 : 0)
+                .animation(.spring(response: 0.5, dampingFraction: 0.5), value: translatorViewModel.isShowingResult)
             }
         }
     }
