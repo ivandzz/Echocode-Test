@@ -130,7 +130,7 @@ struct TranslatorView: View {
                 }
             }
             .navigationDestination(for: TranslatorViewModel.Pet.self) { pet in
-                TranslatorResultView(viewModel: viewModel, pet: pet)
+                TranslatorResultView(viewModel: viewModel)
                     .navigationBarBackButtonHidden()
             }
         }
