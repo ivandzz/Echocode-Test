@@ -23,6 +23,7 @@ struct TranslatorView: View {
                 
                 TranslationSwitch(isHumanToPet: $viewModel.isHumanToPet)
                     .padding(.bottom, 40)
+                    .disabled(viewModel.isRecording)
                 
                 HStack(spacing: 35) {
                     ZStack {
@@ -31,13 +32,30 @@ struct TranslatorView: View {
                             .foregroundStyle(.white)
                             .shadow(radius: 15)
                         
-                        Button {
-                            if viewModel.isHumanToPet {
-                                viewModel.startSpeaking()
-                            } else {
-                                //                                viewModel.startRecording()
+                        if viewModel.isRecording {
+                            VStack(spacing: 10) {
+                                Spacer()
+                                
+                                HStack(spacing: 5) {
+                                    ForEach(0..<25) { item in
+                                        RoundedRectangle(cornerRadius: 2)
+                                            .frame(width: 1, height: .random(in: 10...30))
+                                            .foregroundStyle(.blue)
+                                    }
+                                    .animation(.easeInOut(duration: 0.4).repeatForever(), value: viewModel.isAnimating)
+                                    .onAppear {
+                                        viewModel.isAnimating.toggle()
+                                    }
+                                }
+                                .padding(.bottom, 10)
+                                
+                                Text("Recording...")
+                                    .fontWeight(.bold)
+                                    .padding()
                             }
-                        } label: {
+                            .foregroundStyle(.black)
+                            .frame(width: 175, height: 175)
+                        } else {
                             VStack(spacing: 10) {
                                 Spacer()
                                 
@@ -51,6 +69,13 @@ struct TranslatorView: View {
                             }
                             .foregroundStyle(.black)
                             .frame(width: 175, height: 175)
+                        }
+                    }
+                    .onTapGesture {
+                        if viewModel.isRecording {
+                            viewModel.stopSpeaking()
+                        } else {
+                            viewModel.startSpeaking()
                         }
                     }
                     
@@ -73,6 +98,7 @@ struct TranslatorView: View {
                                 PetSelectionButton(color: .customYellow, imageName: "dog", overlayOpacity: viewModel.getOverlayOpacity(for: .dog))
                             }
                         }
+                        .disabled(viewModel.isRecording)
                     }
                 }
                 .padding(.bottom, 50)

@@ -11,6 +11,8 @@ final class TranslatorViewModel: ObservableObject {
     
     @Published var selectedPet: Pet = .dog
     @Published var isHumanToPet = true
+    @Published var isRecording = false
+    @Published var isAnimating = false
     
     enum Pet {
         case cat, dog
@@ -30,6 +32,14 @@ final class TranslatorViewModel: ObservableObject {
     }
     
     func startSpeaking() {
+        PermissionManager.checkMicrophonePermission { granted in
+            guard granted else { return }
+        }
         
+        isRecording = true
+    }
+    
+    func stopSpeaking() {
+        isRecording = false
     }
 }
