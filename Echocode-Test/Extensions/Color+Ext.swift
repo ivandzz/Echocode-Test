@@ -8,6 +8,25 @@
 import SwiftUI
 
 extension Color {
-    static let customBlue = Color(red: 0.8, green: 0.9, blue: 1.0)
-    static let customYellow = Color(red: 0.9, green: 1.0, blue: 0.8)
+    static let backgroundCyan = Color(hex: "#F3F5F6")
+    static let backgroundYellow = Color(hex: "#C9FFE0")
+    
+    static let customBlue = Color(hex: "#D1E7FC")
+    static let customYellow = Color(hex: "#ECFBC7")
+}
+
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        _ = scanner.scanString("#")
+
+        var rgb: UInt64 = 0
+        scanner.scanHexInt64(&rgb)
+
+        let r = Double((rgb >> 16) & 0xFF) / 255.0
+        let g = Double((rgb >> 8) & 0xFF) / 255.0
+        let b = Double(rgb & 0xFF) / 255.0
+
+        self.init(red: r, green: g, blue: b)
+    }
 }
