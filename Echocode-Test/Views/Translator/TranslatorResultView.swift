@@ -12,41 +12,55 @@ struct TranslatorResultView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: TranslatorViewModel
     @State private var soundName: String = ""
+    @State private var isShowing = false
     
     var body: some View {
         ZStack {
             BackgroundGradient()
             
-            VStack(spacing: 20) {
+            VStack {
                 ZStack {
                     HStack {
                         Button(action: {
-                            dismiss()
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                isShowing = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    dismiss()
+                                }
+                            }
                         }, label: {
                             ZStack {
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 40, height: 40)
+                                    .frame(width: 48, height: 48)
                                 
-                                Image(systemName: "xmark.circle")
-                                    .imageScale(.large)
-                                    .foregroundStyle(.black)
+                                Image("ic-close")
                             }
+                            .shadow(color: .customShadowColor, radius: 60, x: 0, y: 20)
+                            
                         })
+                        .offset(x: isShowing ? 0 : -100)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.7), value: isShowing)
                         
                         Spacer()
                     }
-                    .padding()
+                    .padding(.top, 17)
+                    .padding(.horizontal)
                     
                     Text("Result")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding()
+                        .font(.custom("KonkhmerSleokchher-Regular", size: 32))
+                        .foregroundStyle(Color.customDarkBlue)
+                        .frame(width: 350, height: 58)
+                        .padding(.top, 12)
+                        .opacity(isShowing ? 1 : 0)
+                        .offset(y: isShowing ? 0 : -20)
+                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
                 
                 if viewModel.isHumanToPet {
                     Button {
                         SoundManager.shared.stopSound()
+                        
                         SoundManager.shared.playSound(named: soundName) { error in
                             if let error {
                                 print("Error playing sound: \(error.localizedDescription)")
@@ -54,43 +68,60 @@ struct TranslatorResultView: View {
                         }
                     } label: {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 15)
+                            RoundedRectangle(cornerRadius: 16)
                                 .fill(Color.customBlue)
-                                .frame(width: 280, height: 50)
+                                .frame(width: 291, height: 51)
+                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
                             
-                            Label("Repeat", systemImage: "arrow.clockwise")
-                                .foregroundColor(.black)
-                                .fontWeight(.semibold)
+                            Label("Repeat", image: "ic-rotate")
+                                .font(.custom("KonkhmerSleokchher-Regular", size: 12))
+                                .foregroundColor(Color.customDarkBlue)
                         }
                     }
-                    .padding(.top, 235)
-                    .padding(.bottom, 50)
+                    .padding(.top, 179)
+                    .padding(.bottom, 138)
+                    .scaleEffect(isShowing ? 1 : 0.5)
+                    .opacity(isShowing ? 1 : 0)
+                    .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: isShowing)
+                } else {
+                    
                 }
                 
                 Image(viewModel.selectedPet.imageName)
                     .resizable()
-                    .frame(width: 185, height: 185)
-                
-                Spacer()
+                    .frame(width: 186, height: 186)
+                    .padding(.bottom, 134)
+                    .offset(y: isShowing ? 0 : 100)
+                    .opacity(isShowing ? 1 : 0)
+                    .rotation3DEffect(
+                        .degrees(isShowing ? 0 : 30),
+                        axis: (x: 1, y: 0, z: 0)
+                    )
+                    .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.4), value: isShowing)
                 
             }
         }
         .onAppear {
+            withAnimation(.easeOut(duration: 0.5)) {
+                isShowing = true
+            }
+            
             if viewModel.isHumanToPet {
                 soundName = viewModel.selectedPet.imageName + String(Int.random(in: 1...3))
                 SoundManager.shared.playSound(named: soundName) { error in
                     if let error {
                         print("Error playing sound: \(error.localizedDescription)")
                     }
-                }}
+                }
+            }
         }
         .onDisappear {
             viewModel.isShowingResult = false
+            
             SoundManager.shared.stopSound()
         }
     }
 }
-
 
 #Preview {
     TranslatorResultView(viewModel: TranslatorViewModel())
