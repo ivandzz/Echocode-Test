@@ -32,6 +32,7 @@ struct TranslationSwitch: View {
         }
         .frame(width: 310, height: 61)
         .foregroundStyle(Color.customDarkBlue)
+        .shadow(color: Color(hex: "#191C321A"), radius: 30, x: 0, y: 20)
     }
 }
 
