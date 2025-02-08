@@ -10,9 +10,22 @@
 		054727272D54F5F20007E0AD /* Echocode-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Echocode-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		054727FB2D57A1500007E0AD /* Exceptions for "Echocode-Test" folder in "Echocode-Test" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 054727262D54F5F20007E0AD /* Echocode-Test */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		054727292D54F5F20007E0AD /* Echocode-Test */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				054727FB2D57A1500007E0AD /* Exceptions for "Echocode-Test" folder in "Echocode-Test" target */,
+			);
 			path = "Echocode-Test";
 			sourceTree = "<group>";
 		};
@@ -255,6 +268,7 @@
 				DEVELOPMENT_TEAM = 7Y6PV58YMX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Echocode-Test/Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow access to your microphone to use app features";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -285,6 +299,7 @@
 				DEVELOPMENT_TEAM = 7Y6PV58YMX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Echocode-Test/Info.plist";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Allow access to your microphone to use app features";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
