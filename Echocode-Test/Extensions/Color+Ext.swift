@@ -13,6 +13,7 @@ extension Color {
     
     static let customBlue = Color(hex: "#D1E7FC")
     static let customYellow = Color(hex: "#ECFBC7")
+    static let customDarkBlue = Color(hex: "#292D32")
 }
 
 extension Color {

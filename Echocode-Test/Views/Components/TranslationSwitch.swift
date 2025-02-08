@@ -14,7 +14,7 @@ struct TranslationSwitch: View {
     var body: some View {
         HStack() {
             Text(isHumanToPet ? "HUMAN" : "PET")
-                .fontWeight(.bold)
+                .font(.custom("KonkhmerSleokchher-Regular", size: 16))
                 .frame(maxWidth: .infinity, alignment: .center)
             
             Button {
@@ -22,17 +22,16 @@ struct TranslationSwitch: View {
                     isHumanToPet.toggle()
                 }
             } label: {
-                Image(systemName: "arrow.left.arrow.right")
-                    .font(.system(size: 20))
-                    .foregroundStyle(.black)
+                Image("ic-swap")
             }
             .frame(maxWidth: .infinity)
             
             Text(isHumanToPet ? "PET" : "HUMAN")
-                .fontWeight(.bold)
+                .font(.custom("KonkhmerSleokchher-Regular", size: 16))
                 .frame(maxWidth: .infinity, alignment: .center)
         }
-        .frame(width: 310, height: 60)
+        .frame(width: 310, height: 61)
+        .foregroundStyle(Color.customDarkBlue)
     }
 }
 
