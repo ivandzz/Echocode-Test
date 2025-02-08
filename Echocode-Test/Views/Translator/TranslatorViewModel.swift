@@ -14,8 +14,13 @@ final class TranslatorViewModel: ObservableObject {
     @Published var isRecording = false
     @Published var isAnimating = false
     @Published var isTranslating = false
-    @Published var isShowingResult = false
     @Published var path = NavigationPath()
+    
+    var isTabBarHidden: (Bool) -> Void
+        
+    init(isTabBarHidden: @escaping (Bool) -> Void) {
+        self.isTabBarHidden = isTabBarHidden
+    }
     
     enum Pet {
         case cat, dog
@@ -50,7 +55,7 @@ final class TranslatorViewModel: ObservableObject {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 1...3)) {
                 self.isTranslating = false
-                self.isShowingResult = true
+                self.isTabBarHidden(true)
                 self.path.append(self.selectedPet)
             }
         }

@@ -9,7 +9,15 @@ import SwiftUI
 
 struct TranslatorView: View {
     
-    @ObservedObject var viewModel: TranslatorViewModel
+    @StateObject var viewModel: TranslatorViewModel
+    @Binding var isTabBarHidden: Bool
+    
+    init(isTabBarHidden: Binding<Bool>) {
+        _isTabBarHidden = isTabBarHidden
+        _viewModel = StateObject(wrappedValue: TranslatorViewModel {
+            isTabBarHidden.wrappedValue = $0
+        })
+    }
     
     var body: some View {
         NavigationStack(path: $viewModel.path) {
@@ -60,7 +68,9 @@ struct TranslatorView: View {
             }
             .animation(.easeInOut(duration: 0.5), value: viewModel.isTranslating)
             .navigationDestination(for: TranslatorViewModel.Pet.self) { pet in
-                TranslatorResultView(viewModel: viewModel)
+                TranslatorResultView(viewModel:
+                                     TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                            selectedPet: pet,
+                                                               onDismiss: {isTabBarHidden = false}))
                     .navigationBarBackButtonHidden()
             }
         }
@@ -164,5 +174,5 @@ struct TranslatorView: View {
     }
 }
 #Preview {
-    TranslatorView(viewModel: TranslatorViewModel())
+    TranslatorView(isTabBarHidden: .constant(false))
 }
