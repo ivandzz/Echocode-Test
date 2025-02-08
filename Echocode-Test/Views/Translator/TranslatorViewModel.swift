@@ -48,7 +48,7 @@ final class TranslatorViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.isTranslating = true
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double.random(in: 1...3)) {
                 self.isTranslating = false
                 self.isShowingResult = true
                 self.path.append(self.selectedPet)
