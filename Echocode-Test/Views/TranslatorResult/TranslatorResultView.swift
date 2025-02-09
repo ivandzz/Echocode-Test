@@ -9,101 +9,22 @@ import SwiftUI
 
 struct TranslatorResultView: View {
     
+    //MARK: - Properties
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: TranslatorResultViewModel
     
+    //MARK: - Body
     var body: some View {
         ZStack {
             BackgroundGradient()
             
             VStack {
-                ZStack {
-                    HStack {
-                        Button(action: {
-                            withAnimation(.easeInOut(duration: 0.3)) {
-                                viewModel.isShowing = false
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    dismiss()
-                                }
-                            }
-                        }, label: {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 48, height: 48)
-                                
-                                Image("ic-close")
-                            }
-                            .shadow(color: .customShadowColor, radius: 60, y: 20)
-                            
-                        })
-                        .offset(x: viewModel.isShowing ? 0 : -100)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.7), value: viewModel.isShowing)
-                        
-                        Spacer()
-                    }
-                    .padding(.top, 17)
-                    .padding(.horizontal)
-                    
-                    Text("Result")
-                        .font(.custom("KonkhmerSleokchher-Regular", size: 32))
-                        .foregroundStyle(Color.customDarkBlue)
-                        .frame(width: 350, height: 58)
-                        .padding(.top, 12)
-                        .opacity(viewModel.isShowing ? 1 : 0)
-                        .offset(y: viewModel.isShowing ? 0 : -20)
-                        .transition(.move(edge: .top).combined(with: .opacity))
-                }
+                headerView
                 
                 if viewModel.isHumanToPet {
-                    Button {
-                        viewModel.playSound()
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color.customBlue)
-                                .frame(width: 291, height: 51)
-                                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
-                            
-                            Label("Repeat", image: "ic-rotate")
-                                .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                                .foregroundColor(Color.customDarkBlue)
-                        }
-                    }
-                    .padding(.top, 179)
-                    .padding(.bottom, 136)
-                    .scaleEffect(viewModel.isShowing ? 1 : 0.5)
-                    .opacity(viewModel.isShowing ? 1 : 0)
-                    .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
+                    repeatButton
                 } else {
-                    ZStack {
-                        // Placeholder rectangle with shadow
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.white)
-                            .frame(width: 291, height: 142)
-                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
-                        
-                        PolygonShape()
-                            .fill(Color.customBlue)
-                            .frame(width: 12, height: 169.95)
-                            .rotationEffect(.degrees(33.38))
-                            .offset(x: 95, y: 105)
-                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
-                        
-                        // Actual rectangle without shadow for better look
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(Color.customBlue)
-                            .frame(width: 291, height: 142)
-                        
-                        Text(viewModel.translatedText)
-                            .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                            .foregroundColor(Color.customDarkBlue)
-                    }
-                    .padding(.top, 91)
-                    .padding(.bottom, 105)
-                    .scaleEffect(viewModel.isShowing ? 1 : 0.5)
-                    .opacity(viewModel.isShowing ? 1 : 0)
-                    .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
+                    speechBubble
                 }
                 
                 Image(viewModel.selectedPet.imageName)
@@ -119,21 +40,113 @@ struct TranslatorResultView: View {
                     .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.4), value: viewModel.isShowing)
             }
         }
-        .onAppear {
-            withAnimation(.easeOut(duration: 0.5)) {
-                viewModel.isShowing = true
+        .alert(isPresented: $viewModel.isShowingAlert, error: viewModel.error, actions: {
+            Button("Try Again") {
+                viewModel.error = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { 
+                    viewModel.playSound()
+                }
             }
+            Button("Cancel", role: .cancel) {
+                viewModel.error = nil
+            }
+        })
+        .onAppear(perform: viewModel.onAppear)
+        .onDisappear(perform: viewModel.onDisappear)
+    }
+    
+    //MARK: - Header view
+    private var headerView: some View {
+        ZStack {
+            HStack {
+                CloseButton {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        viewModel.isShowing = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            dismiss()
+                        }
+                    }
+                }
+                .offset(x: viewModel.isShowing ? 0 : -100)
+                .animation(.spring(response: 0.6, dampingFraction: 0.7), value: viewModel.isShowing)
+                
+                Spacer()
+            }
+            .padding(.top, 17)
+            .padding(.horizontal)
             
-            viewModel.onAppear()
+            MainTitle("Result")
+                .padding(.top, 12)
+                .opacity(viewModel.isShowing ? 1 : 0)
+                .offset(y: viewModel.isShowing ? 0 : -20)
+                .transition(.move(edge: .top).combined(with: .opacity))
         }
-        .onDisappear {
-            viewModel.onDisappear()
+    }
+    
+    //MARK: - Repeat button
+    private var repeatButton: some View {
+        Button {
+            viewModel.playSound()
+        } label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.customBlue)
+                    .frame(width: 291, height: 51)
+                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
+                
+                Label("Repeat", image: "ic-rotate")
+                    .font(.custom("KonkhmerSleokchher-Regular", size: 12))
+                    .foregroundColor(Color.customDarkBlue)
+            }
         }
+        .padding(.top, 179)
+        .padding(.bottom, 136)
+        .scaleEffect(viewModel.isShowing ? 1 : 0.5)
+        .opacity(viewModel.isShowing ? 1 : 0)
+        .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
+    }
+    
+    //MARK: - Speech bubble
+    private var speechBubble: some View {
+        ZStack {
+            // Placeholder rectangle with shadow
+            RoundedRectangle(cornerRadius: 16)
+                .fill(.white)
+                .frame(width: 291, height: 142)
+                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
+            
+            PolygonShape()
+                .fill(Color.customBlue)
+                .frame(width: 12, height: 169.95)
+                .rotationEffect(.degrees(33.38))
+                .offset(x: 95, y: 105)
+                .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
+            
+            // Actual rectangle without shadow for better look
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.customBlue)
+                .frame(width: 291, height: 142)
+            
+            Text(viewModel.translatedText)
+                .font(.custom("KonkhmerSleokchher-Regular", size: 12))
+                .foregroundColor(Color.customDarkBlue)
+        }
+        .padding(.top, 91)
+        .padding(.bottom, 105)
+        .scaleEffect(viewModel.isShowing ? 1 : 0.5)
+        .opacity(viewModel.isShowing ? 1 : 0)
+        .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
     }
 }
 
-#Preview {
+#Preview("Human to Pet") {
     TranslatorResultView(viewModel: TranslatorResultViewModel(isHumanToPet: false,
-                                                              selectedPet: TranslatorViewModel.Pet.dog,
+                                                              selectedPet: .dog,
+                                                              onDismiss: {}))
+}
+
+#Preview("Pet to Human") {
+    TranslatorResultView(viewModel: TranslatorResultViewModel(isHumanToPet: true,
+                                                              selectedPet: .cat,
                                                               onDismiss: {}))
 }

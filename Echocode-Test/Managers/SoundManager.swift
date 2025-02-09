@@ -16,7 +16,7 @@ final class SoundManager {
     
     func playSound(named soundName: String, completion: @escaping (Error?) -> Void) {
         guard let url = Bundle.main.url(forResource: soundName, withExtension: "mp3") else {
-            completion(NSError(domain: "SoundManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Sound file not found"]))
+            completion(NSError(domain: "SoundManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Someting went wrong!"]))
             return
         }
         

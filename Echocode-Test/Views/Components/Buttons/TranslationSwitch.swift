@@ -9,12 +9,13 @@ import SwiftUI
 
 struct TranslationSwitch: View {
     
+    //MARK: - Variables
     @Binding var isHumanToPet: Bool
     
+    //MARK: - Body
     var body: some View {
         HStack() {
-            Text(isHumanToPet ? "HUMAN" : "PET")
-                .font(.custom("KonkhmerSleokchher-Regular", size: 16))
+            CommonText(isHumanToPet ? "HUMAN" : "PET")
                 .frame(maxWidth: .infinity, alignment: .center)
             
             Button {
@@ -26,12 +27,10 @@ struct TranslationSwitch: View {
             }
             .frame(maxWidth: .infinity)
             
-            Text(isHumanToPet ? "PET" : "HUMAN")
-                .font(.custom("KonkhmerSleokchher-Regular", size: 16))
+            CommonText(isHumanToPet ? "PET" : "HUMAN")
                 .frame(maxWidth: .infinity, alignment: .center)
         }
         .frame(width: 310, height: 61)
-        .foregroundStyle(Color.customDarkBlue)
         .shadow(color: Color(hex: "#191C321A"), radius: 30, x: 0, y: 20)
     }
 }

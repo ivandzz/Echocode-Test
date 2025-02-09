@@ -9,24 +9,26 @@ import SwiftUI
 
 struct UserTabBarView: View {
     
+    //MARK: - Properties
     @StateObject var viewModel = UserTabBarViewModel()
     
+    //MARK: - Body
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
                 TranslatorView(isTabBarHidden: $viewModel.isTabBarHidden)
                     .tabItem {
-                        Label(UserTabBarViewModel.Tabs.translator.title, image: UserTabBarViewModel.Tabs.translator.image)
+                        Label(UserTabBarViewModel.Tab.translator.title, image: UserTabBarViewModel.Tab.translator.image)
                     }
                     .toolbar(.hidden, for: .tabBar)
-                    .tag(0)
+                    .tag(UserTabBarViewModel.Tab.translator.tag)
                 
                 ClickerView()
                     .tabItem {
-                        Label(UserTabBarViewModel.Tabs.clicker.title, image: UserTabBarViewModel.Tabs.clicker.image)
+                        Label(UserTabBarViewModel.Tab.clicker.title, image: UserTabBarViewModel.Tab.clicker.image)
                     }
                     .toolbar(.hidden, for: .tabBar)
-                    .tag(1)
+                    .tag(UserTabBarViewModel.Tab.clicker.tag)
             }
             
             VStack {
@@ -39,45 +41,21 @@ struct UserTabBarView: View {
                         .frame(width: 216, height: 82)
                     
                     HStack {
-                        Button(action: {
-                            viewModel.selectedTab = 0
-                        }) {
-                            VStack(spacing: 4) {
-                                Image(UserTabBarViewModel.Tabs.translator.image)
-                                    .opacity(viewModel.selectedTab == 0 ? 1 : 0.5)
-                                
-                                Text(UserTabBarViewModel.Tabs.translator.title)
-                                    .foregroundStyle(Color.customDarkBlue)
-                                    .opacity(viewModel.selectedTab == 0 ? 1 : 0.5)
-                                    .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                            }
-                        }
-                        .padding(.leading, 24)
+                        TabBarButton(tab: .translator, selectedTab: $viewModel.selectedTab)
+                            .padding(.leading, 24)
                         
                         Spacer()
                         
-                        Button(action: {
-                            viewModel.selectedTab = 1
-                        }) {
-                            VStack(spacing: 4) {
-                                Image(UserTabBarViewModel.Tabs.clicker.image)
-                                    .opacity(viewModel.selectedTab == 1 ? 1 : 0.5)
-                                
-                                Text(UserTabBarViewModel.Tabs.clicker.title)
-                                    .foregroundStyle(Color.customDarkBlue)
-                                    .opacity(viewModel.selectedTab == 1 ? 1 : 0.5)
-                                    .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                            }
-                        }
-                        .padding(.trailing, 24)
+                        TabBarButton(tab: .clicker, selectedTab: $viewModel.selectedTab)
                     }
-                    .frame(width: 215, height: 82)
+                    .padding(.trailing, 24)
                 }
-                .padding(.bottom, 16)
-                .opacity(viewModel.isTabBarHidden ? 0 : 1)
-                .offset(y: viewModel.isTabBarHidden ? 100 : 0)
-                .animation(.spring(response: 0.5, dampingFraction: 0.5), value: viewModel.isTabBarHidden)
+                .frame(width: 215, height: 82)
             }
+            .padding(.bottom, 16)
+            .opacity(viewModel.isTabBarHidden ? 0 : 1)
+            .offset(y: viewModel.isTabBarHidden ? 100 : 0)
+            .animation(.spring(response: 0.5, dampingFraction: 0.5), value: viewModel.isTabBarHidden)
         }
     }
 }

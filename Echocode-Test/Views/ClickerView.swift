@@ -9,7 +9,14 @@ import SwiftUI
 
 struct ClickerView: View {
     var body: some View {
-        BackgroundGradient()
+        ZStack {
+            BackgroundGradient()
+            
+            VStack {
+                MainTitle("Settings")
+                    .padding(.vertical, 12)
+            }
+        }
     }
 }
 

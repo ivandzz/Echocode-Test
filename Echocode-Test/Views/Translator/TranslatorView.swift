@@ -9,9 +9,11 @@ import SwiftUI
 
 struct TranslatorView: View {
     
+    //MARK: - Properties
     @StateObject var viewModel: TranslatorViewModel
     @Binding var isTabBarHidden: Bool
     
+    //MARK: - Init
     init(isTabBarHidden: Binding<Bool>) {
         _isTabBarHidden = isTabBarHidden
         _viewModel = StateObject(wrappedValue: TranslatorViewModel {
@@ -19,6 +21,7 @@ struct TranslatorView: View {
         })
     }
     
+    //MARK: - Body
     var body: some View {
         NavigationStack(path: $viewModel.path) {
             ZStack {
@@ -27,10 +30,7 @@ struct TranslatorView: View {
                 VStack {
                     if !viewModel.isTranslating {
                         Group {
-                            Text("Translator")
-                                .font(.custom("KonkhmerSleokchher-Regular", size: 32))
-                                .foregroundStyle(Color.customDarkBlue)
-                                .frame(width: 350, height: 58)
+                            MainTitle("Translator")
                                 .padding(.vertical, 12)
                                 .transition(.move(edge: .top).combined(with: .opacity))
                             
@@ -48,9 +48,7 @@ struct TranslatorView: View {
                             .transition(.move(edge: .top).combined(with: .opacity))
                         }
                     } else {
-                        Text("Process of translation...")
-                            .font(.custom("KonkhmerSleokchher-Regular", size: 16))
-                            .frame(height: 22)
+                        CommonText("Process of translation...")
                             .padding(.bottom, 78)
                             .padding(.top, 343)
                             .transition(.asymmetric(
@@ -67,15 +65,16 @@ struct TranslatorView: View {
                 }
             }
             .animation(.easeInOut(duration: 0.5), value: viewModel.isTranslating)
-            .navigationDestination(for: TranslatorViewModel.Pet.self) { pet in
+            .navigationDestination(for: Pet.self) { pet in
                 TranslatorResultView(viewModel:
-                                     TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                            selectedPet: pet,
-                                                               onDismiss: {isTabBarHidden = false}))
-                    .navigationBarBackButtonHidden()
+                                        TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                            selectedPet: pet,
+                                                                  onDismiss: {isTabBarHidden = false}))
+                .navigationBarBackButtonHidden()
             }
         }
     }
     
+    //MARK: - Recording button
     private var recordingButton: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
@@ -105,12 +104,9 @@ struct TranslatorView: View {
                     }
                     .padding(.bottom, 54)
                     
-                    Text("Recording...")
-                        .font(.custom("KonkhmerSleokchher-Regular", size: 16))
-                        .frame(width: 138, height: 22)
+                    CommonText("Recording...")
                         .padding(.bottom, 16)
                 }
-                .foregroundStyle(Color.customDarkBlue)
                 .frame(width: 175, height: 175)
                 .transition(.opacity.combined(with: .scale))
             } else {
@@ -120,12 +116,9 @@ struct TranslatorView: View {
                     Image("ic-mic")
                         .padding(.bottom, 24)
                     
-                    Text("Start Speak")
-                        .font(.custom("KonkhmerSleokchher-Regular", size: 16))
-                        .frame(width: 138, height: 22)
+                    CommonText("Start Speak")
                         .padding(.bottom, 16)
                 }
-                .foregroundStyle(Color.customDarkBlue)
                 .frame(width: 175, height: 175)
                 .transition(.opacity.combined(with: .scale))
             }
@@ -141,6 +134,7 @@ struct TranslatorView: View {
         }
     }
     
+    //MARK: - Pet selection view
     private var petSelectionView: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 15)
@@ -148,25 +142,21 @@ struct TranslatorView: View {
                 .foregroundStyle(.white)
                 .shadow(color: .black.opacity(0.25), radius: 14.3, x: 0, y: 4)
             
-            VStack(spacing: 10) {
-                Button {
+            VStack(spacing: 12) {
+                PetSelectionButton(color: .customBlue,
+                                   imageName: "cat",
+                                   overlayOpacity: viewModel.getOverlayOpacity(for: .cat)) {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         viewModel.selectedPet = .cat
                     }
-                } label: {
-                    PetSelectionButton(color: .customBlue,
-                                     imageName: "cat",
-                                     overlayOpacity: viewModel.getOverlayOpacity(for: .cat))
                 }
                 
-                Button {
+                PetSelectionButton(color: .customYellow,
+                                   imageName: "dog",
+                                   overlayOpacity: viewModel.getOverlayOpacity(for: .dog)) {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         viewModel.selectedPet = .dog
                     }
-                } label: {
-                    PetSelectionButton(color: .customYellow,
-                                     imageName: "dog",
-                                     overlayOpacity: viewModel.getOverlayOpacity(for: .dog))
                 }
             }
             .disabled(viewModel.isRecording)
@@ -174,5 +164,5 @@ struct TranslatorView: View {
     }
 }
 #Preview {
-    TranslatorView(isTabBarHidden: .constant(false))
+    TranslatorView(isTabBarHidden: .constant(true))
 }
