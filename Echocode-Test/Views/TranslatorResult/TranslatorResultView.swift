@@ -71,17 +71,44 @@ struct TranslatorResultView: View {
                         }
                     }
                     .padding(.top, 179)
-                    .padding(.bottom, 138)
+                    .padding(.bottom, 136)
                     .scaleEffect(viewModel.isShowing ? 1 : 0.5)
                     .opacity(viewModel.isShowing ? 1 : 0)
                     .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
                 } else {
-                    
+                    ZStack {
+                        // Placeholder rectangle with shadow
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(.white)
+                            .frame(width: 291, height: 142)
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
+                        
+                        PolygonShape()
+                            .fill(Color.customBlue)
+                            .frame(width: 12, height: 169.95)
+                            .rotationEffect(.degrees(33.38))
+                            .offset(x: 95, y: 105)
+                            .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
+                        
+                        // Actual rectangle without shadow for better look
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.customBlue)
+                            .frame(width: 291, height: 142)
+                        
+                        Text(viewModel.translatedText)
+                            .font(.custom("KonkhmerSleokchher-Regular", size: 12))
+                            .foregroundColor(Color.customDarkBlue)
+                    }
+                    .padding(.top, 91)
+                    .padding(.bottom, 105)
+                    .scaleEffect(viewModel.isShowing ? 1 : 0.5)
+                    .opacity(viewModel.isShowing ? 1 : 0)
+                    .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
                 }
                 
                 Image(viewModel.selectedPet.imageName)
                     .resizable()
-                    .frame(width: 186, height: 186)
+                    .frame(width: 184, height: 184)
                     .padding(.bottom, 134)
                     .offset(y: viewModel.isShowing ? 0 : 100)
                     .opacity(viewModel.isShowing ? 1 : 0)
@@ -90,7 +117,6 @@ struct TranslatorResultView: View {
                         axis: (x: 1, y: 0, z: 0)
                     )
                     .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.4), value: viewModel.isShowing)
-                
             }
         }
         .onAppear {
@@ -107,8 +133,7 @@ struct TranslatorResultView: View {
 }
 
 #Preview {
-    TranslatorResultView(viewModel: TranslatorResultViewModel(isHumanToPet: true,
+    TranslatorResultView(viewModel: TranslatorResultViewModel(isHumanToPet: false,
                                                               selectedPet: TranslatorViewModel.Pet.dog,
-                                                                onDismiss: {}))
-                                                                
+                                                              onDismiss: {}))
 }
