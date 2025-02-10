@@ -5,7 +5,7 @@
 //  Created by Іван Джулинський on 10.02.2025.
 //
 
-import Foundation
+import SwiftUI
 
 final class ContactUsViewModel: ObservableObject {
     
@@ -13,8 +13,12 @@ final class ContactUsViewModel: ObservableObject {
     @Published var name = ""
     @Published var email = ""
     @Published var message = ""
+    
+    @Published var isShowing = false
+    
     @Published var isShowingAlert = false
     @Published var error: MailError?
+    
     @Published var isShowingMailView = false
     
     //MARK: - Properties
@@ -63,4 +67,13 @@ final class ContactUsViewModel: ObservableObject {
         """
     }
     
+    func onAppear() {
+        withAnimation(.easeOut(duration: 0.5)) {
+            isShowing = true
+        }
+    }
+    
+    func onDisappear() {
+        onDismiss()
+    }
 }

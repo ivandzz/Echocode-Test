@@ -11,9 +11,11 @@ final class ClickerViewModel: ObservableObject {
     
     //MARK: - Published properties
     @Published var isShowingContactUs = false
+    
     @Published var isShowingRestoreAlert = false
     @Published var isRestoring = false
     @Published var restoreStatus: PurchaseStatus?
+    
     @Published var isShowingPrivacyPolicy = false
     @Published var isShowingTermsOfUse = false
     
