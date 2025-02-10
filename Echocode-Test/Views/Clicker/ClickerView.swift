@@ -84,6 +84,16 @@ struct ClickerView: View {
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
+                        
+                        Button {
+                            viewModel.isShowingTermsOfUse = true
+                        } label: {
+                            SettingsListButton(text: "Terms of Use")
+                        }
+                        .padding(.bottom, 14)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
                     .disabled(viewModel.isRestoring)
                     .listStyle(.plain)
@@ -106,6 +116,14 @@ struct ClickerView: View {
             }
             .sheet(isPresented: $viewModel.isShowingPrivacyPolicy) {
                 if let url = URL(string: "https://www.apple.com/legal/privacy/en-ww/") {
+                    SafariView(url: url)
+                } else {
+                    let url = URL(string: "apple.com")!
+                    SafariView(url: url)
+                }
+            }
+            .sheet(isPresented: $viewModel.isShowingTermsOfUse) {
+                if let url = URL(string: "https://www.apple.com/legal/internet-services/terms/site.html") {
                     SafariView(url: url)
                 } else {
                     let url = URL(string: "apple.com")!
