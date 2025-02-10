@@ -31,25 +31,7 @@ final class ClickerViewModel: ObservableObject {
         isRestoring = true
         defer { isRestoring = false }
         
-        do {
-            var purchaseIDs: [String] = []
-            
-            for await result in Transaction.currentEntitlements {
-                let transaction = try result.payloadValue
-                purchaseIDs.append(transaction.productID)
-            }
-            
-            if purchaseIDs.isEmpty {
-                restoreStatus = .noPurchasesFound
-            } else {
-                restoreStatus = .success
-            }
-            
-            isShowingRestoreAlert = true
-            
-        } catch {
-            restoreStatus = .restorationFailed(error.localizedDescription) // Передаємо рядок
-            isShowingRestoreAlert = true
-        }
+        restoreStatus = await StoreManager.shared.restorePurchases()
+        isShowingRestoreAlert = true
     }
 }
