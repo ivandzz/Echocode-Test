@@ -62,13 +62,37 @@ struct ClickerView: View {
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
+                        
+                        Button(action: {
+                            Task {
+                                await viewModel.restorePurchases()
+                            }
+                        }, label: {
+                            SettingsListButton(text: "Restore Purchases")
+                        })
+                        .padding(.bottom, 14)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
+                    .disabled(viewModel.isRestoring)
                     .listStyle(.plain)
+                }
+                if viewModel.isRestoring {
+                    ProgressView()
+                        .scaleEffect(2)
                 }
             }
             .navigationDestination(isPresented: $viewModel.isShowingContactUs) {
                 ContactUsView(viewModel: ContactUsViewModel(onDismiss: { isTabBarHidden = false }))
                     .navigationBarBackButtonHidden()
+            }
+            .alert(viewModel.restoreStatus == .success ? "Success" : "Error",
+                   isPresented: $viewModel.isShowingRestoreAlert
+            ) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(viewModel.restoreStatus?.message ?? "Unknown error occurred.")
             }
         }
     }
