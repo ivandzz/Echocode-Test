@@ -12,7 +12,9 @@ final class TranslatorResultViewModel: ObservableObject {
     //MARK: - Published properties
     @Published var soundName: String = ""
     @Published var translatedText: String = ""
+    
     @Published var isShowing: Bool = false
+    
     @Published var isShowingAlert: Bool = false
     @Published var error: SoundError?
     

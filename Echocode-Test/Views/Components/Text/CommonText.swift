@@ -22,7 +22,6 @@ struct CommonText: View {
         Text(text)
             .font(.custom("KonkhmerSleokchher-Regular", size: 16))
             .foregroundStyle(Color.customDarkBlue)
-            .frame(height: 22)
     }
 }
 

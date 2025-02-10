@@ -22,7 +22,6 @@ struct MainTitle: View {
         Text(title)
             .font(.custom("KonkhmerSleokchher-Regular", size: 32))
             .foregroundStyle(Color.customDarkBlue)
-            .frame(height: 58)
     }
 }
 

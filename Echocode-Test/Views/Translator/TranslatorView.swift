@@ -29,49 +29,57 @@ struct TranslatorView: View {
                 
                 VStack {
                     if !viewModel.isTranslating {
-                        Group {
-                            MainTitle("Translator")
-                                .padding(.vertical, 12)
-                                .transition(.move(edge: .top).combined(with: .opacity))
-                            
-                            TranslationSwitch(isHumanToPet: $viewModel.isHumanToPet)
-                                .padding(.bottom, 58)
-                                .disabled(viewModel.isRecording)
-                                .transition(.move(edge: .top).combined(with: .opacity))
-                            
-                            HStack(spacing: 35) {
-                                recordingButton
-                                
-                                petSelectionView
-                            }
-                            .padding(.bottom, 51)
-                            .transition(.move(edge: .top).combined(with: .opacity))
-                        }
+                        translationContent
                     } else {
-                        CommonText("Process of translation...")
-                            .padding(.bottom, 78)
-                            .padding(.top, 343)
-                            .transition(.asymmetric(
-                                insertion: .scale.combined(with: .opacity),
-                                removal: .scale.combined(with: .opacity)
-                            ))
+                        translatingText
                     }
                     
-                    Image(viewModel.selectedPet.imageName)
-                        .resizable()
-                        .frame(width: 184, height: 184)
-                        .padding(.bottom, 134)
+                    PetImageView(imageName: viewModel.selectedPet.imageName)
                         .scaleEffect(viewModel.isTranslating ? 1.1 : 1.0)
                 }
             }
             .animation(.easeInOut(duration: 0.5), value: viewModel.isTranslating)
             .navigationDestination(for: Pet.self) { pet in
                 TranslatorResultView(viewModel:
-                                        TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                            selectedPet: pet,
-                                                                  onDismiss: {isTabBarHidden = false}))
+                                     TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                              selectedPet: pet,
+                                                               onDismiss: { isTabBarHidden = false }))
                 .navigationBarBackButtonHidden()
             }
         }
+    }
+    
+    //MARK: - Translation content
+    private var translationContent: some View {
+        VStack{
+            MainTitle("Translator")
+                .padding(.vertical, 12)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            
+            TranslationSwitch(isHumanToPet: $viewModel.isHumanToPet)
+                .padding(.bottom, 58)
+                .padding(.horizontal, 40)
+                .disabled(viewModel.isRecording)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            
+            HStack(spacing: 35) {
+                recordingButton
+                
+                petSelectionView
+            }
+            .padding(.bottom, 51)
+            .transition(.move(edge: .top).combined(with: .opacity))
+        }
+    }
+    
+    //MARK: - Translating text
+    private var translatingText: some View {
+        CommonText("Process of translation...")
+            .padding(.bottom, 78)
+            .padding(.top, 343)
+            .transition(.asymmetric(
+                insertion: .scale.combined(with: .opacity),
+                removal: .scale.combined(with: .opacity)
+            ))
     }
     
     //MARK: - Recording button
@@ -86,23 +94,8 @@ struct TranslatorView: View {
                 VStack {
                     Spacer()
                     
-                    HStack(spacing: 5) {
-                        ForEach(0..<25) { item in
-                            RoundedRectangle(cornerRadius: 2)
-                                .frame(width: 1, height: .random(in: 10...30))
-                                .foregroundStyle(.blue)
-                                .animation(
-                                    .easeInOut(duration: 0.4)
-                                    .repeatForever()
-                                    .delay(Double(item) * 0.02),
-                                    value: viewModel.isAnimating
-                                )
-                        }
-                        .onAppear {
-                            viewModel.isAnimating.toggle()
-                        }
-                    }
-                    .padding(.bottom, 54)
+                    SoundWaveView()
+                    .padding(.bottom, 38)
                     
                     CommonText("Recording...")
                         .padding(.bottom, 16)
@@ -114,7 +107,7 @@ struct TranslatorView: View {
                     Spacer()
                     
                     Image("ic-mic")
-                        .padding(.bottom, 24)
+                        .padding(.top, 44)
                     
                     CommonText("Start Speak")
                         .padding(.bottom, 16)

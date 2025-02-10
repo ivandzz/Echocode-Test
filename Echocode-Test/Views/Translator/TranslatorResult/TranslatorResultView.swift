@@ -27,10 +27,7 @@ struct TranslatorResultView: View {
                     speechBubble
                 }
                 
-                Image(viewModel.selectedPet.imageName)
-                    .resizable()
-                    .frame(width: 184, height: 184)
-                    .padding(.bottom, 134)
+                PetImageView(imageName: viewModel.selectedPet.imageName)
                     .offset(y: viewModel.isShowing ? 0 : 100)
                     .opacity(viewModel.isShowing ? 1 : 0)
                     .rotation3DEffect(

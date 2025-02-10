@@ -30,7 +30,6 @@ struct TranslationSwitch: View {
             CommonText(isHumanToPet ? "PET" : "HUMAN")
                 .frame(maxWidth: .infinity, alignment: .center)
         }
-        .frame(width: 310, height: 61)
         .shadow(color: Color(hex: "#191C321A"), radius: 30, x: 0, y: 20)
     }
 }

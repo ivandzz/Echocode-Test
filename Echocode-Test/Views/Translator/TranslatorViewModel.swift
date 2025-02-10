@@ -12,9 +12,10 @@ final class TranslatorViewModel: ObservableObject {
     //MARK: - Published properties
     @Published var selectedPet: Pet = .dog
     @Published var isHumanToPet = true
+    
     @Published var isRecording = false
-    @Published var isAnimating = false
     @Published var isTranslating = false
+    
     @Published var path = NavigationPath()
     
     //MARK: - Properties
