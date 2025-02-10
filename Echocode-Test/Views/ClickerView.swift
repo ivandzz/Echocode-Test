@@ -11,35 +11,52 @@ import StoreKit
 struct ClickerView: View {
     
     @Environment(\.requestReview) var requestReview
+    @State private var isShowingContactUs = false
     
     var body: some View {
-        ZStack {
-            BackgroundGradient()
-            
-            VStack {
-                MainTitle("Settings")
-                    .padding(.vertical, 12)
+        NavigationStack {
+            ZStack {
+                BackgroundGradient()
                 
-                List {
-                    Button(action: {
-                        requestReview()
-                    }, label: {
-                        SettingsListButton(text: "Rate Us")
-                    })
-                    .padding(.bottom, 14)
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
+                VStack {
+                    MainTitle("Settings")
+                        .padding(.vertical, 12)
                     
-                    ShareLink(item: URL(string: "https://github.com/ivandzz")!) {
-                        SettingsListButton(text: "Share App")
+                    List {
+                        Button(action: {
+                            requestReview()
+                        }, label: {
+                            SettingsListButton(text: "Rate Us")
+                        })
+                        .padding(.bottom, 14)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        
+                        ShareLink(item: URL(string: "https://github.com/ivandzz")!) {
+                            SettingsListButton(text: "Share App")
+                        }
+                        .padding(.bottom, 14)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        
+                        Button(action: {
+                            isShowingContactUs = true
+                        }, label: {
+                            SettingsListButton(text: "Contact Us")
+                        })
+                        .padding(.bottom, 14)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
-                    .padding(.bottom, 14)
-                    .listRowInsets(EdgeInsets())
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
+                    .listStyle(.plain)
                 }
-                .listStyle(.plain)
+            }
+            .navigationDestination(isPresented: $isShowingContactUs) {
+                ContactUsView()
+                    .navigationBarBackButtonHidden()
             }
         }
     }

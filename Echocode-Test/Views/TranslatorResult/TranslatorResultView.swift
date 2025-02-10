@@ -85,20 +85,9 @@ struct TranslatorResultView: View {
     
     //MARK: - Repeat button
     private var repeatButton: some View {
-        Button {
+        BigButton(text: "Repeat", iconName: "ic-rotate", action: {
             viewModel.playSound()
-        } label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.customBlue)
-                    .frame(width: 291, height: 51)
-                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
-                
-                Label("Repeat", image: "ic-rotate")
-                    .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                    .foregroundColor(Color.customDarkBlue)
-            }
-        }
+        })
         .padding(.top, 179)
         .padding(.bottom, 136)
         .scaleEffect(viewModel.isShowing ? 1 : 0.5)
