@@ -14,6 +14,7 @@ final class ClickerViewModel: ObservableObject {
     @Published var isShowingRestoreAlert = false
     @Published var isRestoring = false
     @Published var restoreStatus: PurchaseStatus?
+    @Published var isShowingPrivacyPolicy = false
     
     //MARK: - Properties
     var isTabBarHidden: (Bool) -> Void

@@ -74,6 +74,16 @@ struct ClickerView: View {
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
+                        
+                        Button {
+                            viewModel.isShowingPrivacyPolicy = true
+                        } label: {
+                            SettingsListButton(text: "Privacy Policy")
+                        }
+                        .padding(.bottom, 14)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     }
                     .disabled(viewModel.isRestoring)
                     .listStyle(.plain)
@@ -93,6 +103,14 @@ struct ClickerView: View {
                 Button("OK", role: .cancel) { }
             } message: {
                 Text(viewModel.restoreStatus?.message ?? "Unknown error occurred.")
+            }
+            .sheet(isPresented: $viewModel.isShowingPrivacyPolicy) {
+                if let url = URL(string: "https://www.apple.com/legal/privacy/en-ww/") {
+                    SafariView(url: url)
+                } else {
+                    let url = URL(string: "apple.com")!
+                    SafariView(url: url)
+                }
             }
         }
     }
