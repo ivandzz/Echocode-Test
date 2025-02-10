@@ -24,11 +24,10 @@ struct BigButton: View {
                 if UIImage(systemName: iconName) != nil {
                     Label(text, systemImage: iconName)
                         .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                        .foregroundColor(Color.customDarkBlue)
+                        .foregroundStyle(Color.customDarkBlue)
                 } else {
                     Label(text, image: iconName)
                         .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                        .foregroundColor(Color.customDarkBlue)
                 }
             }
         }

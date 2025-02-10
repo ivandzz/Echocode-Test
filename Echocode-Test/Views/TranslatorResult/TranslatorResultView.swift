@@ -118,7 +118,7 @@ struct TranslatorResultView: View {
             
             Text(viewModel.translatedText)
                 .font(.custom("KonkhmerSleokchher-Regular", size: 12))
-                .foregroundColor(Color.customDarkBlue)
+                .foregroundStyle(Color.customDarkBlue)
         }
         .padding(.top, 91)
         .padding(.bottom, 105)

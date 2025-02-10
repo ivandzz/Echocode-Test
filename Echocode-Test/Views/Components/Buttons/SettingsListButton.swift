@@ -18,6 +18,7 @@ struct SettingsListButton: View {
             HStack {
                 Text(text)
                     .font(.custom("KonkhmerSleokchher-Regular", size: 16))
+                    .foregroundStyle(Color.customDarkBlue)
                 
                 Spacer()
                 
