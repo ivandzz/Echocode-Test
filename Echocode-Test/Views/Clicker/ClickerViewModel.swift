@@ -9,5 +9,14 @@ import Foundation
 
 final class ClickerViewModel: ObservableObject {
     
+    //MARK: - Published properties
     @Published var isShowingContactUs = false
+    
+    //MARK: - Properties
+    var isTabBarHidden: (Bool) -> Void
+    
+    //MARK: - Init
+    init(isTabBarHidden: @escaping (Bool) -> Void) {
+        self.isTabBarHidden = isTabBarHidden
+    }
 }

@@ -23,7 +23,7 @@ struct UserTabBarView: View {
                     .toolbar(.hidden, for: .tabBar)
                     .tag(UserTabBarViewModel.Tab.translator.tag)
                 
-                ClickerView()
+                ClickerView(isTabBarHidden: $viewModel.isTabBarHidden)
                     .tabItem {
                         Label(UserTabBarViewModel.Tab.clicker.title, image: UserTabBarViewModel.Tab.clicker.image)
                     }

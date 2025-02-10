@@ -10,9 +10,20 @@ import StoreKit
 
 struct ClickerView: View {
     
+    //MARK: - Properties
     @Environment(\.requestReview) var requestReview
-    @StateObject private var viewModel = ClickerViewModel()
+    @StateObject private var viewModel: ClickerViewModel
+    @Binding var isTabBarHidden: Bool
     
+    //MARK: - Init
+    init(isTabBarHidden: Binding<Bool>) {
+        _isTabBarHidden = isTabBarHidden
+        _viewModel = StateObject(wrappedValue: ClickerViewModel {
+            isTabBarHidden.wrappedValue = $0
+        })
+    }
+    
+    //MARK: - Body
     var body: some View {
         NavigationStack {
             ZStack {
@@ -63,5 +74,5 @@ struct ClickerView: View {
 }
 
 #Preview {
-    ClickerView()
+    ClickerView(isTabBarHidden: .constant(true))
 }
