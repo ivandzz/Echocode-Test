@@ -22,6 +22,7 @@ final class SoundManager {
         
         do {
             player = try AVAudioPlayer(contentsOf: url)
+            try AVAudioSession.sharedInstance().setCategory(.playback)
             player?.prepareToPlay()
             player?.play()
             completion(nil)
@@ -34,4 +35,3 @@ final class SoundManager {
         player?.stop()
     }
 }
-
