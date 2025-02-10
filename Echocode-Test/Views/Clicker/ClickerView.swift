@@ -54,6 +54,7 @@ struct ClickerView: View {
                         
                         Button(action: {
                             viewModel.isShowingContactUs = true
+                            viewModel.isTabBarHidden(true)
                         }, label: {
                             SettingsListButton(text: "Contact Us")
                         })
@@ -66,7 +67,7 @@ struct ClickerView: View {
                 }
             }
             .navigationDestination(isPresented: $viewModel.isShowingContactUs) {
-                ContactUsView()
+                ContactUsView(viewModel: ContactUsViewModel(onDismiss: { isTabBarHidden = false }))
                     .navigationBarBackButtonHidden()
             }
         }

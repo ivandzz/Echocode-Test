@@ -13,14 +13,17 @@ import MessageUI
 
 struct MailView: UIViewControllerRepresentable {
     
+    //MARK: - Properties
     let recipient: String
     let subject: String
     let body: String
     
+    //MARK: - Static Properties
     static var canSendMail: Bool {
         MFMailComposeViewController.canSendMail()
     }
     
+    //MARK: - Coordinator
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
         func mailComposeController(_ controller: MFMailComposeViewController,
                                    didFinishWith result: MFMailComposeResult,
@@ -33,6 +36,7 @@ struct MailView: UIViewControllerRepresentable {
         return Coordinator()
     }
     
+    //MARK: - UIViewControllerRepresentable
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
