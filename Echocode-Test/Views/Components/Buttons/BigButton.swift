@@ -28,6 +28,7 @@ struct BigButton: View {
                 } else {
                     Label(text, image: iconName)
                         .font(.custom("KonkhmerSleokchher-Regular", size: 12))
+                        .foregroundStyle(Color.customDarkBlue)
                 }
             }
         }
