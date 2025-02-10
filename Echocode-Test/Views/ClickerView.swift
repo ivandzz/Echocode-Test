@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct ClickerView: View {
+    
+    @Environment(\.requestReview) var requestReview
+    
     var body: some View {
         ZStack {
             BackgroundGradient()
@@ -15,6 +19,19 @@ struct ClickerView: View {
             VStack {
                 MainTitle("Settings")
                     .padding(.vertical, 12)
+                
+                List {
+                    Button(action: {
+                        requestReview()
+                    }, label: {
+                        SettingsListButton(text: "Rate Us")
+                    })
+                    .padding(.bottom, 14)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                }
+                .listStyle(.plain)
             }
         }
     }
