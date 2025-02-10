@@ -30,6 +30,14 @@ struct ClickerView: View {
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
+                    
+                    ShareLink(item: URL(string: "https://github.com/ivandzz")!) {
+                        SettingsListButton(text: "Share App")
+                    }
+                    .padding(.bottom, 14)
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
                 .listStyle(.plain)
             }
