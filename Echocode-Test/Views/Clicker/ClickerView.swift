@@ -11,7 +11,7 @@ import StoreKit
 struct ClickerView: View {
     
     @Environment(\.requestReview) var requestReview
-    @State private var isShowingContactUs = false
+    @StateObject private var viewModel = ClickerViewModel()
     
     var body: some View {
         NavigationStack {
@@ -42,7 +42,7 @@ struct ClickerView: View {
                         .listRowSeparator(.hidden)
                         
                         Button(action: {
-                            isShowingContactUs = true
+                            viewModel.isShowingContactUs = true
                         }, label: {
                             SettingsListButton(text: "Contact Us")
                         })
@@ -54,7 +54,7 @@ struct ClickerView: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationDestination(isPresented: $isShowingContactUs) {
+            .navigationDestination(isPresented: $viewModel.isShowingContactUs) {
                 ContactUsView()
                     .navigationBarBackButtonHidden()
             }
