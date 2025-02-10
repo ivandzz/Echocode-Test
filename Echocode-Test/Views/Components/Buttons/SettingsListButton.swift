@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SettingsListButton: View {
+struct SettingsButtonLabel: View {
     
     let text: String
     
@@ -31,6 +31,19 @@ struct SettingsListButton: View {
     }
 }
 
+struct SettingsButton: View {
+    
+    let text: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            SettingsButtonLabel(text: text)
+        }
+    }
+}
+
 #Preview {
-    SettingsListButton(text: "Button")
+    SettingsButton(text: "Button") { }
+        .frame(height: 50)
 }

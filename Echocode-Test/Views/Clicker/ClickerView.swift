@@ -34,66 +34,38 @@ struct ClickerView: View {
                         .padding(.vertical, 12)
                     
                     List {
-                        Button(action: {
+                        SettingsButton(text: "Rate Us") {
                             requestReview()
-                        }, label: {
-                            SettingsListButton(text: "Rate Us")
-                        })
-                        .padding(.bottom, 14)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        
-                        ShareLink(item: URL(string: "https://github.com/ivandzz")!) {
-                            SettingsListButton(text: "Share App")
                         }
-                        .padding(.bottom, 14)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        .listRowModifier()
                         
-                        Button(action: {
+                        ShareLink(item: AppURL.appGithub!) {
+                            SettingsButtonLabel(text: "Share App")
+                        }
+                        .listRowModifier()
+
+                        SettingsButton(text: "Contact Us") {
                             viewModel.isShowingContactUs = true
                             viewModel.isTabBarHidden(true)
-                        }, label: {
-                            SettingsListButton(text: "Contact Us")
-                        })
-                        .padding(.bottom, 14)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                        
-                        Button(action: {
+                        }
+                        .listRowModifier()
+
+                        SettingsButton(text: "Restore Purchases") {
                             Task {
                                 await viewModel.restorePurchases()
                             }
-                        }, label: {
-                            SettingsListButton(text: "Restore Purchases")
-                        })
-                        .padding(.bottom, 14)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        }
+                        .listRowModifier()
                         
-                        Button {
+                        SettingsButton(text: "Privacy Policy") {
                             viewModel.isShowingPrivacyPolicy = true
-                        } label: {
-                            SettingsListButton(text: "Privacy Policy")
                         }
-                        .padding(.bottom, 14)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        .listRowModifier()
                         
-                        Button {
+                        SettingsButton(text: "Terms of Use") {
                             viewModel.isShowingTermsOfUse = true
-                        } label: {
-                            SettingsListButton(text: "Terms of Use")
                         }
-                        .padding(.bottom, 14)
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        .listRowModifier()
                     }
                     .disabled(viewModel.isRestoring)
                     .listStyle(.plain)
@@ -107,6 +79,7 @@ struct ClickerView: View {
                 ContactUsView(viewModel: ContactUsViewModel(onDismiss: { isTabBarHidden = false }))
                     .navigationBarBackButtonHidden()
             }
+            
             .alert(viewModel.restoreStatus == .success ? "Success" : "Error",
                    isPresented: $viewModel.isShowingRestoreAlert
             ) {
@@ -114,23 +87,26 @@ struct ClickerView: View {
             } message: {
                 Text(viewModel.restoreStatus?.message ?? "Unknown error occurred.")
             }
+            
             .sheet(isPresented: $viewModel.isShowingPrivacyPolicy) {
-                if let url = URL(string: "https://www.apple.com/legal/privacy/en-ww/") {
-                    SafariView(url: url)
-                } else {
-                    let url = URL(string: "apple.com")!
-                    SafariView(url: url)
-                }
+                SafariSheet(url: AppURL.privacyPolicy)
             }
+            
             .sheet(isPresented: $viewModel.isShowingTermsOfUse) {
-                if let url = URL(string: "https://www.apple.com/legal/internet-services/terms/site.html") {
-                    SafariView(url: url)
-                } else {
-                    let url = URL(string: "apple.com")!
-                    SafariView(url: url)
-                }
+                SafariSheet(url: AppURL.termsOfUse)
             }
         }
+    }
+}
+
+//MARK: - View Modifiers
+private extension View {
+    func listRowModifier() -> some View {
+        self
+            .padding(.bottom, 14)
+            .listRowInsets(EdgeInsets())
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
     }
 }
 
