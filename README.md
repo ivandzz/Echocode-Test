@@ -13,7 +13,7 @@ This project is a test task in Echocode App. Pet Translator is a fun and interac
 4. Smooth animations for an enhanced user experience.
 
 ## 🖼️ Demo showcase
-![](Media/demo.mp4)
+[![YouTube Video](https://img.youtube.com/vi/Gdra1nW2R0I/0.jpg)](https://www.youtube.com/watch?v=Gdra1nW2R0I)
 
 ## 🛠️ Technology Stack
 1. SwiftUI – Main UI framework.
