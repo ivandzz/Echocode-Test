@@ -8,9 +8,6 @@
 import SwiftUI
 import MessageUI
 
-import SwiftUI
-import MessageUI
-
 struct MailView: UIViewControllerRepresentable {
     
     //MARK: - Properties
