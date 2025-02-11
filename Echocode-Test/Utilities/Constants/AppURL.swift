@@ -8,7 +8,7 @@
 import Foundation
 
 struct AppURL {
-    static let appGithub = URL(string: "hhps://github.com/ivandzz")
+    static let appGithub = URL(string: "https://github.com/ivandzz/Echocode-Test")
     static let privacyPolicy = URL(string: "https://www.apple.com/legal/privacy/en-ww/")
     static let termsOfUse = URL(string: "https://www.apple.com/legal/internet-services/terms/site.html")
     static let fallback = URL(string: "apple.com")!
