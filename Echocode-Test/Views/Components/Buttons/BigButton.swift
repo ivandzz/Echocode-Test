@@ -18,7 +18,7 @@ struct BigButton: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
                     .fill(Color.customBlue)
-                    .frame(width: 291, height: 51)
+                    .frame(width: 291, height: 54)
                     .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 4)
                 
                 if UIImage(systemName: iconName) != nil {

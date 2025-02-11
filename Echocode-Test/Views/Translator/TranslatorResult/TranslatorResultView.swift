@@ -35,6 +35,8 @@ struct TranslatorResultView: View {
                         axis: (x: 1, y: 0, z: 0)
                     )
                     .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.4), value: viewModel.isShowing)
+                
+                Spacer()
             }
         }
         .alert(isPresented: $viewModel.isShowingAlert, error: viewModel.error, actions: {
@@ -69,11 +71,11 @@ struct TranslatorResultView: View {
                 
                 Spacer()
             }
-            .padding(.top, 17)
-            .padding(.horizontal)
+            .padding(.vertical, 17)
+            .padding(.leading, 20)
             
             MainTitle("Result")
-                .padding(.top, 12)
+                .padding(.vertical, 12)
                 .opacity(viewModel.isShowing ? 1 : 0)
                 .offset(y: viewModel.isShowing ? 0 : -20)
                 .transition(.move(edge: .top).combined(with: .opacity))
@@ -85,8 +87,8 @@ struct TranslatorResultView: View {
         BigButton(text: "Repeat", iconName: "ic-rotate", action: {
             viewModel.playSound()
         })
-        .padding(.top, 179)
-        .padding(.bottom, 136)
+        .padding(.top, 180)
+        .padding(.bottom, 105)
         .scaleEffect(viewModel.isShowing ? 1 : 0.5)
         .opacity(viewModel.isShowing ? 1 : 0)
         .animation(.spring(response: 0.6, dampingFraction: 0.7).delay(0.3), value: viewModel.isShowing)
@@ -117,7 +119,7 @@ struct TranslatorResultView: View {
                 .font(.custom("KonkhmerSleokchher-Regular", size: 12))
                 .foregroundStyle(Color.customDarkBlue)
         }
-        .padding(.top, 91)
+        .padding(.top, 64)
         .padding(.bottom, 105)
         .scaleEffect(viewModel.isShowing ? 1 : 0.5)
         .opacity(viewModel.isShowing ? 1 : 0)

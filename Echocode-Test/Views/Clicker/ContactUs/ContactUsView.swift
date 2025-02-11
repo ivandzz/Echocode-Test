@@ -58,7 +58,7 @@ struct ContactUsView: View {
                 
                 Spacer()
             }
-            .padding(.top, 17)
+            .padding(.vertical, 17)
             .padding(.horizontal)
             
             MainTitle("Contact Us")

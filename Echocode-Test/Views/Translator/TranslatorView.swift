@@ -36,12 +36,14 @@ struct TranslatorView: View {
                     
                     PetImageView(imageName: viewModel.selectedPet.imageName)
                         .scaleEffect(viewModel.isTranslating ? 1.1 : 1.0)
+                    
+                    Spacer()
                 }
             }
             .animation(.easeInOut(duration: 0.5), value: viewModel.isTranslating)
             .navigationDestination(for: Pet.self) { pet in
                 TranslatorResultView(viewModel:
-                                     TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                              selectedPet: pet,
+                                     TranslatorResultViewModel(isHumanToPet: viewModel.isHumanToPet,                                        selectedPet: pet,
                                                                onDismiss: { isTabBarHidden = false }))
                 .navigationBarBackButtonHidden()
             }
@@ -56,7 +58,6 @@ struct TranslatorView: View {
                 .transition(.move(edge: .top).combined(with: .opacity))
             
             TranslationSwitch(isHumanToPet: $viewModel.isHumanToPet)
-                .padding(.bottom, 58)
                 .padding(.horizontal, 40)
                 .disabled(viewModel.isRecording)
                 .transition(.move(edge: .top).combined(with: .opacity))
@@ -66,6 +67,7 @@ struct TranslatorView: View {
                 
                 petSelectionView
             }
+            .padding(.top, 58)
             .padding(.bottom, 51)
             .transition(.move(edge: .top).combined(with: .opacity))
         }
